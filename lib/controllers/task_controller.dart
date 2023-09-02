@@ -1,0 +1,27 @@
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:todo/models/task_model.dart';
+
+class TaskController extends GetxController{
+RxList<TaskModel> tasks =<TaskModel>[].obs;
+bool isEditing = false;
+int editIndex =0;
+@override
+  void onInit() {
+    final box = GetStorage();
+    if (box.read('tasks')!=null) {
+      var list = box.read('tasks');
+      for (var element in list) {
+       var aa= TaskModel.fromJson(element);
+        tasks.add(aa);
+      }
+    }
+    super.onInit();
+
+
+    ever(tasks, (callback) => box.write('tasks', tasks.toJson()));
+  }
+
+
+  
+}
